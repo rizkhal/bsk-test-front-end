@@ -1,0 +1,1 @@
+import{_ as e,o as t,c as o,a as s}from"./index.e36aceed.js";const a={},c={class:"flex justify-center items-center h-screen"},n=s("h1",{class:"text-3xl font-bold leading-tight text-gray-900 dark:text-gray-100"}," Page not Found ",-1),r=[n];function _(d,i){return t(),o("header",c,r)}var f=e(a,[["render",_]]);export{f as default};
