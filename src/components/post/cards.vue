@@ -1,5 +1,8 @@
+<script setup>
+defineProps({
+  items: [Array],
+});
+</script>
 <template>
-    <div>
-        cards
-    </div>
+  <v-post-card v-for="(_, index) in items" :key="index" :item="_" />
 </template>

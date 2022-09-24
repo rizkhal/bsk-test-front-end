@@ -23,7 +23,7 @@ const submit = async () => {
 </script>
 <template>
   <div class="flex justify-center items-center flex-col">
-    <!-- <div class="p-16 rounded-full bg-indigo-500 mb-4"></div> -->
+    <!-- <div class="p-16 rounded-full bg-red-500 mb-4"></div> -->
     <span class="text-gray-700 font-semibold text-md">
       LOGIN TO YOUR ACCOUNT
     </span>
@@ -35,7 +35,7 @@ const submit = async () => {
       <input
         type="email"
         v-model="form.email"
-        class="form-input mt-1 block w-full rounded-md focus:border-indigo-600"
+        class="form-input mt-1 block w-full rounded-md focus:border-red-600"
       />
     </label>
 
@@ -44,14 +44,14 @@ const submit = async () => {
       <input
         type="password"
         v-model="form.password"
-        class="form-input mt-1 block w-full rounded-md focus:border-indigo-600"
+        class="form-input mt-1 block w-full rounded-md focus:border-red-600"
       />
     </label>
 
     <div class="flex justify-between items-center mt-4">
       <div>
         <label class="inline-flex items-center">
-          <input type="checkbox" class="form-checkbox text-indigo-600" />
+          <input type="checkbox" class="form-checkbox text-red-600" />
           <span class="mx-2 text-gray-600 text-sm">Ingat saya?</span>
         </label>
       </div>
@@ -66,10 +66,10 @@ const submit = async () => {
           w-full
           rounded-md
           text-center
-          bg-indigo-600
+          bg-red-600
           text-white text-sm
-          hover:bg-indigo-500
-          focus:outline-none focus:ring-2
+          hover:bg-red-500
+          focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500
         "
       >
         <span>Masuk</span>

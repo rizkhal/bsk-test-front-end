@@ -1,24 +1,25 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { storeToRefs } from "pinia";
-import { useBlog } from "~/stores/blog";
+import { useBlog } from "~/stores/post";
 
 const HTTP_CODE_CREATED = 201;
 
 const show = ref(false);
 
-const suggestion = useBlog();
+const store = useBlog();
 const { loading, error } = storeToRefs(useBlog());
 
 const form = reactive({
   title: null,
-  description: null,
+  category_id: null,
+  content: null,
 });
 
 const save = async () => {
-  const response = await suggestion.save(form);
+  const response = await store.save(form);
 
-  if (response.status == HTTP_CODE_CREATED) {
+  if (response?.status == HTTP_CODE_CREATED) {
     show.value = true;
     error.value = null;
     Object.keys(form).forEach(function (key) {
@@ -36,7 +37,8 @@ const save = async () => {
     <v-blog-form
       :errors="error"
       v-model:title="form.title"
-      v-model:description="form.description"
+      v-model:category="form.category_id"
+      v-model:content="form.content"
     />
 
     <button
@@ -47,8 +49,8 @@ const save = async () => {
         px-4
         rounded-md
         text-white
-        bg-indigo-500
-        focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+        bg-red-500
+        focus:ring-2 focus:ring-offset-2 focus:ring-red-500
       "
       :disabled="loading"
       :class="{

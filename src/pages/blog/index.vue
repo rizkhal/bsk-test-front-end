@@ -1,3 +1,15 @@
+<script setup>
+import { storeToRefs } from "pinia";
+import { useBlog } from "~/stores/post";
+import { onMounted, onUnmounted } from "vue";
+
+const { fetch } = useBlog();
+const { loading, posts, total, page, error } = storeToRefs(useBlog());
+
+onMounted(() => {
+  fetch();
+});
+</script>
 <template>
   <v-container title="posts lists">
     <router-link
@@ -7,8 +19,8 @@
         py-2
         rounded-md
         text-white
-        bg-indigo-500
-        focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+        bg-red-500
+        focus:ring-2 focus:ring-offset-2 focus:ring-red-500
       "
     >
       Create
@@ -25,15 +37,18 @@
           "
         >
           <tr>
-            <th scope="col" class="py-3 px-6">Product name</th>
-            <th scope="col" class="py-3 px-6">Color</th>
+            <th scope="col" class="py-3 px-6">Title</th>
             <th scope="col" class="py-3 px-6">Category</th>
-            <th scope="col" class="py-3 px-6">Price</th>
+            <th scope="col" class="py-3 px-6">Author</th>
             <th scope="col" class="py-3 px-6">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+          <tr
+            v-for="(item, index) in posts"
+            :key="index"
+            class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+          >
             <th
               scope="row"
               class="
@@ -45,131 +60,21 @@
                 dark:text-white
               "
             >
-              Apple MacBook Pro 17"
+              {{ item.title }}
             </th>
-            <td class="py-4 px-6">Sliver</td>
-            <td class="py-4 px-6">Laptop</td>
-            <td class="py-4 px-6">$2999</td>
+            <td class="py-4 px-6">{{ item.category.name }}</td>
             <td class="py-4 px-6">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
+              <div class="flex items-center space-x-2">
+                <v-img
+                  :src="item.author.profile_picture"
+                  class="w-10 h-10 rounded-md"
+                />
+                <div class="flex flex-col">
+                  <span>{{ item.author.name }}</span>
+                  <span>Admin</span>
+                </div>
+              </div>
             </td>
-          </tr>
-          <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              class="
-                py-4
-                px-6
-                font-medium
-                text-gray-900
-                whitespace-nowrap
-                dark:text-white
-              "
-            >
-              Microsoft Surface Pro
-            </th>
-            <td class="py-4 px-6">White</td>
-            <td class="py-4 px-6">Laptop PC</td>
-            <td class="py-4 px-6">$1999</td>
-            <td class="py-4 px-6">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-            <th
-              scope="row"
-              class="
-                py-4
-                px-6
-                font-medium
-                text-gray-900
-                whitespace-nowrap
-                dark:text-white
-              "
-            >
-              Magic Mouse 2
-            </th>
-            <td class="py-4 px-6">Black</td>
-            <td class="py-4 px-6">Accessories</td>
-            <td class="py-4 px-6">$99</td>
-            <td class="py-4 px-6">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr class="bg-gray-50 border-b dark:bg-gray-800 dark:border-gray-700">
-            <th
-              scope="row"
-              class="
-                py-4
-                px-6
-                font-medium
-                text-gray-900
-                whitespace-nowrap
-                dark:text-white
-              "
-            >
-              Google Pixel Phone
-            </th>
-            <td class="py-4 px-6">Gray</td>
-            <td class="py-4 px-6">Phone</td>
-            <td class="py-4 px-6">$799</td>
-            <td class="py-4 px-6">
-              <a
-                href="#"
-                class="
-                  font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
-                "
-                >Edit</a
-              >
-            </td>
-          </tr>
-          <tr>
-            <th
-              scope="row"
-              class="
-                py-4
-                px-6
-                font-medium
-                text-gray-900
-                whitespace-nowrap
-                dark:text-white
-              "
-            >
-              Apple Watch 5
-            </th>
-            <td class="py-4 px-6">Red</td>
-            <td class="py-4 px-6">Wearables</td>
-            <td class="py-4 px-6">$999</td>
             <td class="py-4 px-6">
               <a
                 href="#"

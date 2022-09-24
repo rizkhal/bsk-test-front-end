@@ -5,11 +5,16 @@ const routes = [
   },
   {
     path: "/posts",
-    component: () => import("~/layouts/guest.vue"),
+    component: () => import("~/layouts/site.vue"),
     children: [
       {
         path: "",
         component: () => import("~/pages/posts/index.vue"),
+        meta: { title: "Blog" },
+      },
+      {
+        path: ":slug",
+        component: () => import("~/pages/posts/show.vue"),
         meta: { title: "Blog" },
       },
     ],

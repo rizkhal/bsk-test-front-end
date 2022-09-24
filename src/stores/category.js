@@ -1,21 +1,21 @@
 import axios from "~/api/axios";
 import { defineStore } from "pinia";
 
-export const useBlog = defineStore("blog", {
+export const useCategory = defineStore("category", {
   state: () => ({
     loading: false,
     error: null,
+    categories: [],
   }),
   actions: {
-    async save(form) {
+    async fetch() {
       this.loading = true;
 
       try {
-        const response = await axios.post(`/v1/suggestions`, form);
-
-        return response;
+        // sengaja per-page 100 soalnya belum nerapin select pakai axios
+        const { data } = await axios.get(`/v1/categories?per_page=100`);
+        this.categories.push(...data.data);
       } catch (error) {
-        console.log('error: ', error);
         this.error = error;
       } finally {
         this.loading = false;
