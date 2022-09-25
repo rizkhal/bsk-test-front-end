@@ -19,7 +19,7 @@ defineProps({
     type: [String, null],
     required: true,
   },
-  category: {
+  summary: {
     type: [String, null],
     required: true,
   },
@@ -27,9 +27,19 @@ defineProps({
     type: [String, null],
     required: true,
   },
+  category: {
+    type: [String, Number, null],
+    required: true,
+  },
 });
 
-defineEmits(["update:title", "update:category", "update:content"]);
+const emit = defineEmits([
+  "update:title",
+  "update:summary",
+  "update:content",
+  "update:category",
+  "onThumbnailChange",
+]);
 </script>
 <template>
   <form class="flex flex-col space-y-4">
@@ -50,6 +60,21 @@ defineEmits(["update:title", "update:category", "update:content"]);
       </span>
     </div>
     <div class="flex flex-col">
+      <label class="dark:text-gray-300" for="summary">Summary</label>
+      <textarea
+        id="summary"
+        class="rounded-md dark:bg-gray-800 dark:text-gray-300"
+        :value="summary"
+        :class="{
+          'border-red-500': errors?.summary,
+        }"
+        @input="$emit('update:summary', $event.target.value)"
+      />
+      <span class="mt-1 text-red-500" v-if="errors?.summary">
+        {{ errors.summary[0] }}
+      </span>
+    </div>
+    <div class="flex flex-col">
       <label class="dark:text-gray-300" for="category">Category</label>
       <select
         id="category"
@@ -64,6 +89,7 @@ defineEmits(["update:title", "update:category", "update:content"]);
           v-for="(item, index) in categories"
           :key="index"
           :value="item.id"
+          :selected="item.id === category"
         >
           {{ item.name }}
         </option>
@@ -73,10 +99,26 @@ defineEmits(["update:title", "update:category", "update:content"]);
       </span>
     </div>
     <div class="flex flex-col">
+      <label class="dark:text-gray-300" for="thumbnail">Thumbnail</label>
+      <input
+        type="file"
+        id="thumbnail"
+        accept="image/*"
+        class="rounded-md dark:bg-gray-800 dark:text-gray-300"
+        :class="{
+          'border-red-500': errors?.thumbnail,
+        }"
+        @change="$emit('onThumbnailChange', $event.target.files[0])"
+      />
+      <span class="mt-1 text-red-500" v-if="errors?.thumbnail">
+        {{ errors.thumbnail[0] }}
+      </span>
+    </div>
+    <div class="flex flex-col">
       <label class="dark:text-gray-300" for="content">Content</label>
       <textarea
         id="content"
-        class="rounded-md dark:bg-gray-800 dark:text-gray-300"
+        class="rounded-md dark:bg-gray-800 dark:text-gray-300 h-64"
         :value="content"
         :class="{
           'border-red-500': errors?.content,

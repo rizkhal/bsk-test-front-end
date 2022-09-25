@@ -6,11 +6,7 @@ defineProps({
 <template>
   <div class="shadow border dark:border-gray-800 rounded-md">
     <router-link :to="`/posts/${item.slug}`">
-      <v-img
-        class="rounded-t-lg"
-        src="https://flowbite.com/docs/images/blog/image-1.jpg"
-        :alt="item.title"
-      />
+      <v-img class="rounded-t-lg" :src="item.thumbnail_url" :alt="item.title" />
     </router-link>
     <div class="p-5">
       <div class="flex flex-row justify-between items-center mb-4">

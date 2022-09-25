@@ -1,14 +1,16 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useBlog } from "~/stores/post";
+import { useRoute } from "vue-router";
 
-const HTTP_CODE_CREATED = 201;
+const HTTP_OK = 200;
 
 const show = ref(false);
 
-const store = useBlog();
-const { loading, error } = storeToRefs(useBlog());
+const { fetch, update: updatePost } = useBlog();
+const { slug } = useRoute().params;
+const { loading, post, error } = storeToRefs(useBlog());
 
 const form = reactive({
   title: null,
@@ -18,19 +20,21 @@ const form = reactive({
   category_id: null,
 });
 
-const handleThumbnailChange = (file) => {
-  form.thumbnail = file;
-};
+onMounted(async () => {
+  await fetch(slug);
 
-const save = async () => {
-  const response = await store.save(form);
+  form.title = post.value.title;
+  form.summary = post.value.summary;
+  form.content = post.value.content;
+  form.category_id = post.value.category.id;
+});
 
-  if (response?.status == HTTP_CODE_CREATED) {
+const update = async () => {
+  const response = await updatePost(form, slug);
+
+  if (response?.status == HTTP_OK) {
     show.value = true;
     error.value = null;
-    Object.keys(form).forEach(function (key) {
-      form[key] = "";
-    });
   } else {
     error.value = response.response.data.errors;
   }
@@ -38,7 +42,7 @@ const save = async () => {
 </script>
 <template>
   <v-container title="create posts">
-    <v-alert v-show="show" type="success" message="Success add new post" />
+    <v-alert v-show="show" type="success" message="Success update post" />
 
     <v-blog-form
       :errors="error"
@@ -50,7 +54,7 @@ const save = async () => {
     />
 
     <button
-      @click.prevent="save"
+      @click.prevent="update"
       class="
         mt-4
         py-2
@@ -66,7 +70,7 @@ const save = async () => {
       }"
     >
       <span v-if="loading">Loading..</span>
-      <span v-else>Save</span>
+      <span v-else>Update</span>
     </button>
   </v-container>
 </template>

@@ -44,50 +44,71 @@ onMounted(() => {
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(item, index) in posts"
-            :key="index"
-            class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
-          >
-            <th
-              scope="row"
-              class="
-                py-4
-                px-6
-                font-medium
-                text-gray-900
-                whitespace-nowrap
-                dark:text-white
-              "
+          <template v-if="!loading && !posts.length">
+            <tr class="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
+              <td class="py-4 px-6 text-center" colspan="4">
+                <span>Kosong</span>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr
+              v-for="(item, index) in posts"
+              :key="index"
+              class="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
             >
-              {{ item.title }}
-            </th>
-            <td class="py-4 px-6">{{ item.category.name }}</td>
-            <td class="py-4 px-6">
-              <div class="flex items-center space-x-2">
-                <v-img
-                  :src="item.author.profile_picture"
-                  class="w-10 h-10 rounded-md"
-                />
-                <div class="flex flex-col">
-                  <span>{{ item.author.name }}</span>
-                  <span>Admin</span>
-                </div>
-              </div>
-            </td>
-            <td class="py-4 px-6">
-              <a
-                href="#"
+              <th
+                scope="row"
                 class="
+                  py-4
+                  px-6
                   font-medium
-                  text-blue-600
-                  dark:text-blue-500
-                  hover:underline
+                  text-gray-900
+                  whitespace-nowrap
+                  dark:text-white
                 "
-                >Edit</a
               >
-            </td>
-          </tr>
+                {{ item.title }}
+              </th>
+              <td class="py-4 px-6">{{ item.category.name }}</td>
+              <td class="py-4 px-6">
+                <div class="flex items-center space-x-2">
+                  <v-img
+                    :src="item.author.profile_picture"
+                    class="w-10 h-10 rounded-md"
+                  />
+                  <div class="flex flex-col">
+                    <span>{{ item.author.name }}</span>
+                    <span>Admin</span>
+                  </div>
+                </div>
+              </td>
+              <td class="py-4 px-6">
+                <div class="flex flex-row space-x-2">
+                  <router-link
+                    :to="`/admin/blogs/${item.slug}/edit`"
+                    class="
+                      font-medium
+                      text-blue-600
+                      dark:text-blue-500
+                      hover:underline
+                    "
+                    >Edit</router-link
+                  >
+                  <a
+                    href="#"
+                    class="
+                      font-medium
+                      text-red-600
+                      dark:text-red-500
+                      hover:underline
+                    "
+                    >Delete</a
+                  >
+                </div>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>

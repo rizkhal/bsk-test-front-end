@@ -16,7 +16,9 @@ export const useBlog = defineStore("post", {
 
       try {
         if (!slug) {
-          const { data } = await axios.get(`/v1/posts?page=${this.page}&per_page=12`);
+          const { data } = await axios.get(
+            `/v1/posts?page=${this.page}&per_page=12`
+          );
           this.total = data.meta.total;
           this.posts.push(...data.data);
         } else {
@@ -33,7 +35,37 @@ export const useBlog = defineStore("post", {
       this.loading = true;
 
       try {
-        const response = await axios.post(`/v1/posts`, form);
+        const response = await axios.post(`/v1/posts`, form, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        return response;
+      } catch (error) {
+        this.error = error;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async update(form, slug) {
+      this.loading = true;
+
+      try {
+        const response = await axios.post(
+          `/v1/posts/${slug}`,
+          {
+            ...form,
+            ...{
+              _method: "PUT",
+            },
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         return response;
       } catch (error) {

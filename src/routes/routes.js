@@ -38,12 +38,17 @@ const routes = [
       {
         path: "blogs",
         component: () => import("~/pages/blog/index.vue"),
-        meta: { title: "Beranda", auth: true },
+        meta: { title: "Blog", auth: true },
       },
       {
         path: "blogs/create",
         component: () => import("~/pages/blog/create.vue"),
-        meta: { title: "Beranda", auth: true },
+        meta: { title: "Create", auth: true },
+      },
+      {
+        path: "blogs/:slug/edit",
+        component: () => import("~/pages/blog/edit.vue"),
+        meta: { title: "Edit", auth: true },
       },
     ],
   },
