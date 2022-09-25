@@ -1,17 +1,28 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useBlog } from "~/stores/post";
-import { onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 
-const { fetch } = useBlog();
+const { fetch, destroy } = useBlog();
 const { loading, posts, total, page, error } = storeToRefs(useBlog());
 
-onMounted(() => {
-  fetch();
+const show = ref(false);
+
+onMounted(async () => {
+  await fetch();
 });
+
+const remove = async (slug) => {
+  if (confirm("Delete it?")) {
+    await destroy(slug);
+    show.value = true;
+  }
+};
 </script>
 <template>
   <v-container title="posts lists">
+    <v-alert v-show="show" type="success" message="Success delete post" />
+
     <router-link
       to="/admin/blogs/create"
       class="
@@ -95,16 +106,17 @@ onMounted(() => {
                     "
                     >Edit</router-link
                   >
-                  <a
-                    href="#"
+                  <button
+                    @click.prevent="remove(item.slug)"
                     class="
                       font-medium
                       text-red-600
                       dark:text-red-500
                       hover:underline
                     "
-                    >Delete</a
                   >
+                    Delete
+                  </button>
                 </div>
               </td>
             </tr>

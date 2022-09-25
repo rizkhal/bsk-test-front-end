@@ -74,5 +74,16 @@ export const useBlog = defineStore("post", {
         this.loading = false;
       }
     },
+    async destroy(slug) {
+      this.loading = true;
+
+      try {
+        await axios.delete(`/v1/posts/${slug}`);
+      } catch (error) {
+        this.error = error;
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });
