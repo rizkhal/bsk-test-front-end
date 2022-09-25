@@ -19,8 +19,8 @@ export default ({ mode }) => {
           enabled: true,
         },
         manifest: {
-          name: "Pustaka Digital",
-          short_name: "Pustaka Digital",
+          name: "Bsk Test",
+          short_name: "Bsk Test",
           theme_color: "#1976d2",
           background_color: "#fafafa",
           display: "standalone",

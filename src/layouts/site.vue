@@ -35,7 +35,6 @@ onMounted(() => {
       <div class="flex items-center justify-between px-4">
         <ul class="flex space-x-20 text-gray-900 dark:text-white">
           <li><router-link to="/posts">Home</router-link></li>
-          <li><router-link to="/posts">Blog</router-link></li>
           <li><router-link to="/auth/login">Login</router-link></li>
         </ul>
         <button

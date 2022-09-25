@@ -32,8 +32,15 @@ instance.interceptors.response.use(
   function (config) {
     return config;
   },
-  function (error) {
+  async function (error) {
     const { status } = error.response;
+
+    if (status == 401) {
+      // harusnya bikin request ke refresh token disini
+      // cuman gak cukup waktunya, takutnya saya terlambat kumpul
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
 
     if (status != 422) {
       return Promise.reject(error);
