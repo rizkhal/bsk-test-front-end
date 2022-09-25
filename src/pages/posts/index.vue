@@ -7,7 +7,7 @@ const { fetch } = useBlog();
 const { loading, posts, total, page, error } = storeToRefs(useBlog());
 
 const loadMore = () => {
-  if (window.innerHeight + window.scrollY + 200 >= document.body.scrollHeight) {
+  if (window.innerHeight + window.scrollY + 300 >= document.body.scrollHeight) {
     if (posts.value.length < total.value) {
       page.value++;
       fetch();

@@ -43,7 +43,7 @@ defineProps({
         </h5>
       </router-link>
       <p class="font-normal text-gray-700 dark:text-gray-400 mb-3">
-        <vue-markdown :source="$h.excerpt(item.content, 140)" />
+        <vue-markdown :source="$h.excerpt(item.summary, 140)" />
       </p>
       <router-link
         :to="`/posts/${item.slug}`"
